@@ -1,0 +1,29 @@
+#+TITLE: Cosas a hacer gomez-viewer
+#+AUTHOR: dzigaVertov
+#+EMAIL: gomezmarcelod@gmail.com
+
+
+* Features a agregar
+
+** TODO Manejo de archivos
+
+** TODO Cropping
+
+** DONE Posibilidad de rotar las imágenes
+
+** TODO Dinámica de las imágenes
+
+** TODO Posibilidad de dibujo y anotaciones
+
+
+* Desarrollo detallado
+
+** TODO Pasar a lenguaje kv el diseño
+
+** TODO Implementar la apertura de archivos
+
+** TODO Implementar cropping cuadrado
+
+** TODO Implementar cropping forma arbitraria
+
+** DONE Implementar rotación de imágenes

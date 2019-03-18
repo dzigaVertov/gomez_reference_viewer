@@ -1,27 +1,35 @@
 from kivy.app import App
-# from kivy.core.window import Window
 from kivy.uix.widget import Widget
 from kivy.uix.image import Image
+from kivy.core.window import Window
 from kivy.vector import Vector
 import os
 from kivy.uix.filechooser import FileChooserIconView
 from kivy.uix.popup import Popup
+from kivy.uix.scatter import Scatter
+from kivy.config import Config
+Config.set('input', 'mouse', 'mouse,multitouch_on_demand')
+# fsdfdfwsfds
+
+
+# from kivy.core.window import Window
+
 
 path = '/home/marcelo/Desktop/referencias/fievel/'
 
 
-# class Sprite(Image):
-#     def __init__(self, **kwargs):
-#         super(Sprite, self).__init__(**kwargs)
-#         self.size = self.texture_size
 class Sprite(Image):
     def __init__(self, **kwargs):
 
         super(Sprite, self).__init__(**kwargs)
+        # self.keep_data = True
+        # print(type(self.texture))
+        # bottomleft = self.texture.get_region(0, 0, 64, 64)
+        # self.texture = bottomleft
         self.size = list(map(lambda x: x/2, self.texture_size))
 
 
-class Referencia(Widget):
+class Referencia(Scatter):
 
     def __init__(self, source):
         super(Referencia, self).__init__()
@@ -30,33 +38,25 @@ class Referencia(Widget):
         self.size = self.image.size
 
     def on_touch_down(self, touch):
-        if self.collide_point(*touch.pos) and len(touch.grab_list) == 0:
-            touch.grab(self)
-            parent = self.parent
-            parent.remove_widget(self)
-            parent.add_widget(self)
-            if touch.is_mouse_scrolling:
+        x, y = touch.x, touch.y
+        if self.collide_point(x, y) and len(touch.grab_list) == 0:
+            super(Referencia, self).on_touch_down(touch)
 
+            if touch.is_mouse_scrolling:  # and touch.grab_current is self:
                 if touch.button == 'scrolldown':
-                    self.scalar_image(1.5)
+                    self.scale = 1.1 * self.scale
                 elif touch.button == 'scrollup':
-                    self.scalar_image(0.75)
-
-    def on_touch_move(self, touch):
-
-        if touch.grab_current is self:
-
-            self.pos = Vector(self.x + touch.dx,
-                              self.y + touch.dy)
-            self.image.pos = self.pos
+                    self.scale = 0.9 * self.scale
+            return False
 
     def on_touch_up(self, touch):
         if touch.grab_current is self:
+            self._touches = []
             touch.ungrab(self)
 
-    def scalar_image(self, factor):
-        self.image.size = factor * Vector(*self.image.size)
-        self.size = self.image.size
+    # def scalar_image(self, factor):
+    #     self.image.size = factor * Vector(*self.image.size)
+    #     self.size = self.image.size
 
 
 class Viewer(Widget):
