@@ -1,8 +1,30 @@
-<Viewer>:
-	canvas:
-		Color:
-			rgba: .7, .7, .7, .7
 
-		Rectangle:
-			pos:  self.pos
-			size: self.size
+<Root_widget>:
+	orientation: "vertical"
+	padding: 5
+	
+
+	BoxLayout:
+		orientation: "vertical"
+		size_hint_y:.07
+		
+
+		Button:
+			text: "Hola"
+
+	BoxLayout:
+		orientation: "vertical"
+		
+
+		Viewer:
+			canvas.before:
+				Color:
+					rgba: 1,1,1,1
+				Rectangle:
+					pos: self.pos
+					size: root.size
+			
+
+			
+				
+		

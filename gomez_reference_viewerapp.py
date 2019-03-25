@@ -3,13 +3,16 @@ from kivy.uix.widget import Widget
 from kivy.uix.image import Image
 from kivy.core.window import Window
 from kivy.vector import Vector
+from kivy.graphics import Rectangle
+from kivy.graphics import Color
 import os
 from kivy.uix.filechooser import FileChooserIconView
 from kivy.uix.popup import Popup
 from kivy.uix.scatter import Scatter
+from kivy.uix.boxlayout import BoxLayout
+from kivy.uix.stencilview import StencilView
 from kivy.config import Config
 Config.set('input', 'mouse', 'mouse,multitouch_on_demand')
-# fsdfdfwsfds
 
 
 # from kivy.core.window import Window
@@ -29,6 +32,14 @@ class Sprite(Image):
         self.size = list(map(lambda x: x/2, self.texture_size))
 
 
+class Root_widget(BoxLayout):
+    # def __init__(self):
+    #     self.viewer = Viewer()
+
+    def boton(self):
+        print('probando')
+
+
 class Referencia(Scatter):
 
     def __init__(self, source):
@@ -36,6 +47,7 @@ class Referencia(Scatter):
         self.image = Sprite(source=source, allow_stretch=True)
         self.add_widget(self.image)
         self.size = self.image.size
+        self.auto_bring_to_front = True
 
     def on_touch_down(self, touch):
         x, y = touch.x, touch.y
@@ -59,19 +71,19 @@ class Referencia(Scatter):
     #     self.size = self.image.size
 
 
-class Viewer(Widget):
+class Viewer(StencilView):
     def __init__(self, **kwargs):
 
         super(Viewer, self).__init__(**kwargs)
-
         self.images = self.load_images()
 
-        self.widgets = [self.add_widget(im) for im in self.images]
+        with self.canvas.after:
+            self.refs = [self.add_widget(im) for im in self.images]
 
-        self.files = FileChooserIconView()
-        self._popup = Popup(
-            title='hola', content=self.files, size_hint=(0.9, 0.9))
-        self._popup.open()
+        # self.files = FileChooserIconView()
+        # self._popup = Popup(
+        #     title='hola', content=self.files, size_hint=(0.9, 0.9))
+        # self._popup.open()
 
 #        self.add_widget(self.files)
  #       self.files.size = self.size
@@ -86,7 +98,7 @@ class Viewer(Widget):
 
 class gomez_reference_viewerApp(App):
     def build(self):
-        view = Viewer()
+        view = Root_widget()
         return view
 
 
