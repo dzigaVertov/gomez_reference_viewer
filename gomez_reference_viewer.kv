@@ -1,6 +1,16 @@
+<Popup>:
+	title: "Agregar"
+	id: pop
+	content: files
 
+	FileChooserIconView:
+		id: files
+		multiselect: True		
+		on_selection: root.eve(args)
+		
 <Root_widget>:
 	orientation: "vertical"
+	id: roo 
 	padding: 5
 	
 
@@ -10,13 +20,16 @@
 		
 
 		Button:
-			text: "Hola"
+			text: "Agregar Imagen"
+			on_press: root.agregar()
 
 	BoxLayout:
 		orientation: "vertical"
 		
 
 		Viewer:
+			id:vwr
+
 			canvas.before:
 				Color:
 					rgba: 1,1,1,1
