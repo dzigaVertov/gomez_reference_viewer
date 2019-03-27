@@ -16,50 +16,52 @@ from kivy.config import Config
 Config.set('input', 'mouse', 'mouse,multitouch_on_demand')
 
 
-path = '/home/marcelo/Desktop/referencias/fievel/'
-
-
-
 class Sprite(Image):
     def __init__(self, **kwargs):
 
         super(Sprite, self).__init__(**kwargs)
 
-        # para el crop 
+        # para el crop
         # self.keep_data = True
         # print(type(self.texture))
         # bottomleft = self.texture.get_region(0, 0, 64, 64)
         # self.texture = bottomleft
         self.size = list(map(lambda x: x/2, self.texture_size))
 
+
 class Archs(Popup):
-    def __init__(self, viejo):
+    def __init__(self, view_widget):
         super(Archs, self).__init__()
-        self.viejo = viejo
+        self.view_widget = view_widget
 
-    def eve(self, args):
+    def aceptar_pressed(self, button):
+        if self.ids.chooser.selection:
+            for im in self.ids.chooser.selection:
+                self.view_widget.add_image_wid(im)
+
+        self.dismiss()
+
+    def add_reference(self, chooser, selected, event):
+        self.view_widget.add_image_wid(chooser.selection.pop())
         
-        print(args[0].selection)
-        print(self.viejo.ids.vwr)
-        self.viejo.ids.vwr.add_image_wid(args[0].selection[0])
-
 
 class Root_widget(BoxLayout):
 
-    vwr = ObjectProperty(None)
+    view = ObjectProperty(None)
 
     def agregar(self):
-        self.popi = Archs(self)
+        self.popi = Archs(self.ids.view)
         self.popi.open()
         print('probando')
 
 
 class Referencia(Scatter):
-    def __init__(self, source):
+    def __init__(self, source, viewer):
         super(Referencia, self).__init__()
         self.image = Sprite(source=source, allow_stretch=True)
         self.add_widget(self.image)
         self.size = self.image.size
+        self.center = viewer.center
         self.auto_bring_to_front = True
 
     def on_touch_down(self, touch):
@@ -67,7 +69,7 @@ class Referencia(Scatter):
         if self.collide_point(x, y) and len(touch.grab_list) == 0:
             super(Referencia, self).on_touch_down(touch)
 
-            if touch.is_mouse_scrolling: 
+            if touch.is_mouse_scrolling:
                 if touch.button == 'scrolldown':
                     self.scale = 1.1 * self.scale
                 elif touch.button == 'scrollup':
@@ -84,29 +86,23 @@ class Viewer(StencilView):
     def __init__(self, **kwargs):
 
         super(Viewer, self).__init__(**kwargs)
-        self.images = self.load_images()
-
-        with self.canvas.after:
-            self.refs = [self.add_widget(im) for im in self.images]
-
-    
-
-    def load_images(self):
-        os.chdir(path)
-        images = [Referencia(source=file) for file in os.listdir() if (
-            file.endswith('png') or file.endswith('jpg'))]
-
-        return images
+        
 
     def add_image_wid(self, imfile):
-        self.add_widget(Referencia(source=imfile))
+        self.add_widget(Referencia(source=imfile, viewer=self))
 
 
 class gomez_reference_viewerApp(App):
     def build(self):
-        view = Root_widget()
-        return view
+        self.view = Root_widget()
+        self.drops = []
+        Window.bind(on_dropfile=self.open_dropped)
+        return self.view
 
+    def open_dropped(self, win, file):
+        self.view.ids.view.add_image_wid(file.decode("utf-8"))
+
+        
 
 if __name__ == '__main__':
     gomez_reference_viewerApp().run()

@@ -1,43 +1,49 @@
 <Popup>:
-	title: "Agregar"
-	id: pop
-	content: files
+    title: "Agregar"
+    content: files
 
-	FileChooserIconView:
-		id: files
-		multiselect: True		
-		on_selection: root.eve(args)
-		
+    BoxLayout:
+        orientation: "vertical"
+        id: files
+
+        BoxLayout:
+            orientation: "vertical"
+            size_hint_y: .07
+
+            Button:
+                text:"Aceptar"
+                on_press: root.aceptar_pressed(args)
+
+        BoxLayout:
+            orientation: "vertical"
+
+
+            FileChooserIconView:
+                id: chooser                
+                multiselect: False
+                on_submit: root.add_reference(*args)
+
+
 <Root_widget>:
-	orientation: "vertical"
-	id: roo 
-	padding: 5
-	
+    orientation: "vertical"
+    padding: 5
 
-	BoxLayout:
-		orientation: "vertical"
-		size_hint_y:.07
-		
+    BoxLayout:
+        orientation: "vertical"
+        size_hint_y:.07
 
-		Button:
-			text: "Agregar Imagen"
-			on_press: root.agregar()
+        Button:
+            text: "Agregar Imagen"
+            on_press: root.agregar()
 
-	BoxLayout:
-		orientation: "vertical"
-		
+    BoxLayout:
+        orientation: "vertical"
 
-		Viewer:
-			id:vwr
-
-			canvas.before:
-				Color:
-					rgba: 1,1,1,1
-				Rectangle:
-					pos: self.pos
-					size: root.size
-			
-
-			
-				
-		
+        Viewer:
+            id:view
+            canvas.before:
+                Color:
+                    rgba: .2,.2,.2,1
+                Rectangle:
+                    pos: self.pos
+                    size: root.size
