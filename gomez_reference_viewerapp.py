@@ -54,6 +54,16 @@ class Root_widget(BoxLayout):
         self.popi.open()
         print('probando')
 
+    def set_mover(self, button):
+        self.view.tool = "mover"
+
+    def set_cropear(self, button):
+        self.view.tool = "cropear"
+
+        
+        
+
+
 
 class Referencia(Scatter):
     def __init__(self, source, viewer):
@@ -67,6 +77,8 @@ class Referencia(Scatter):
     def on_touch_down(self, touch):
         x, y = touch.x, touch.y
         if self.collide_point(x, y) and len(touch.grab_list) == 0:
+            if self.parent.tool == 'cropear':
+                self.parent.select_me(self)
             super(Referencia, self).on_touch_down(touch)
 
             if touch.is_mouse_scrolling:
@@ -86,10 +98,31 @@ class Viewer(StencilView):
     def __init__(self, **kwargs):
 
         super(Viewer, self).__init__(**kwargs)
+        self.rect = None
+        self.tool = "mover"
         
+    def select_me(self, child):
+        with self.canvas:
+            Color(0, 0.5, 0, 0.5)
+            Rectangle(pos=(0, 0), size=(500, 500))
+        with self.canvas.after:
+            child.index=0
+
+    def on_touch_up(self, touch):
+        if self.rect:
+            self.canvas.remove(self.rect)
+        super(Viewer, self).on_touch_up(touch)
 
     def add_image_wid(self, imfile):
         self.add_widget(Referencia(source=imfile, viewer=self))
+
+    # def on_touch_down(self, touch):
+    #     if self.tool == "Mover":
+    #         print('mover')
+    #         return super(Viewer, self).on_touch_down(touch)
+    #     else:
+    #         print("cropear")
+
 
 
 class gomez_reference_viewerApp(App):

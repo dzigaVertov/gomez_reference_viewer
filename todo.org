@@ -5,7 +5,7 @@
 
 * Features a agregar
 
-** TODO Manejo de archivos
+** DONE Manejo de archivos
 
 ** TODO Cropping
 
@@ -18,11 +18,19 @@
 
 * Desarrollo detallado
 
-** TODO Pasar a lenguaje kv el diseño
+** DONE Pasar a lenguaje kv el diseño
 
-** TODO Implementar la apertura de archivos
+** DONE Implementar la apertura de archivos
 
 ** TODO Implementar cropping cuadrado
+
+*** DONE Implementar selección de herramienta
+
+*** TODO Implementar selección de widget
+
+*** TODO Implementar selección de cuadrado
+
+*** TODO Implementar crop
 
 ** TODO Implementar cropping forma arbitraria
 

@@ -27,14 +27,30 @@
 <Root_widget>:
     orientation: "vertical"
     padding: 5
+    view: view
 
     BoxLayout:
         orientation: "vertical"
         size_hint_y:.07
 
-        Button:
-            text: "Agregar Imagen"
-            on_press: root.agregar()
+        BoxLayout:
+            orientation: "horizontal"
+            size_hint_x: 0.5
+            
+            Button:
+                text: "Agregar Imagen"
+                id: agregar                
+                on_press: root.agregar()
+        
+            Button:
+                text: "Cropear"
+                id: cropear
+                on_press: root.set_cropear(*args)
+
+            Button:
+                text: "Mover"
+                id: mover
+                on_press: root.set_mover(*args)
 
     BoxLayout:
         orientation: "vertical"
