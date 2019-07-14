@@ -1,4 +1,19 @@
-<Popup>:
+<Crop>:
+    content: image_to_crop
+    id: cropi
+        
+    BoxLayout:
+        orientation: 'vertical' 
+        id: image_to_crop
+
+        Sprite:
+            id: sprite_to_crop
+            source: root.image_texture.source
+      
+
+
+
+<Archs>:
     title: "Agregar"
     content: files
 
@@ -23,12 +38,14 @@
                 multiselect: False
                 on_submit: root.add_reference(*args)
 
+                    
 
 <Root_widget>:
     orientation: "vertical"
     padding: 5
     view: view
-
+    id: rw
+    
     BoxLayout:
         orientation: "vertical"
         size_hint_y:.07
@@ -56,7 +73,7 @@
         orientation: "vertical"
 
         Viewer:
-            id:view
+            id: view
             canvas.before:
                 Color:
                     rgba: .2,.2,.2,1
